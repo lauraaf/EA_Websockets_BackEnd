@@ -37,12 +37,15 @@ const connectedUser = new Set();
 
 io.on('connection', (socket) => {
   console.log('**********************************************************Connected successfully', socket.id);
+  socket.join("some room");
   connectedUser.add(socket.id);
-  io.emit('connected-user', connectedUser.size);
+  //io.emit('connected-user', connectedUser.size);
+  io.to("some room").emit('connected-user', connectedUser.size);
   socket.on('disconnect', () => {
     console.log('Disconnected successfully', socket.id);
     connectedUser.delete(socket.id);
-    io.emit('connected-user', connectedUser.size);
+    //io.emit('connected-user', connectedUser.size);
+    io.to("some room").emit('connected-user', connectedUser.size);
   });
 
   socket.on('manual-disconnect', () => {
@@ -52,6 +55,7 @@ io.on('connection', (socket) => {
 
   socket.on('message', async (data) => {
     console.log(data);
-    socket.broadcast.emit('message-receive', data);
+    //socket.broadcast.emit('message-receive', data);
+    socket.to("some room").emit('message-receive', data);
   });
 });
