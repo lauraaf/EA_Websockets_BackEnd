@@ -11,7 +11,7 @@ app.use(express.json())
 run();
 
 app.use(cors());
-//app.use(express.json() as RequestHandler);
+
 
 const PORT = 3000;
 
@@ -29,7 +29,43 @@ const server = app.listen(PORT, () => {
 
 initializeSocket(server);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* const io = new Server(server,  {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   cors: {
     origin: "*"
   }});

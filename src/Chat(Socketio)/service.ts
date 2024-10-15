@@ -1,12 +1,12 @@
 import { Server } from 'socket.io';
 //import { IChat } from './model';
-import Chat from './Schema';
+//import Chat from './schema';
 
 const connectedUser = new Set();
 
 const socketService = (io: Server) => {
     io.on('connection', (socket) => {
-        console.log('**********************************************************Connected successfully', socket.id);
+        console.log('Connected successfully', socket.id);
         socket.join("some room");
         connectedUser.add(socket.id);
         //io.emit('connected-user', connectedUser.size);
@@ -29,12 +29,10 @@ const socketService = (io: Server) => {
           socket.to("some room").emit('message-receive', data);
         });
     
-        socket.on('sendMessage', async (data: { user: string; message: string }) => {
-          const message = new Chat(data);
-          await message.save(); // Guardar en la base de datos
+        socket.on('sendMessage', async (data) => {
     
           // Emitir el mensaje a todos los clientes en la sala
-          io.to("some room").emit('message-receive', message);
+          io.to("some room").emit('message-receive', data);
         });
       });
 };
