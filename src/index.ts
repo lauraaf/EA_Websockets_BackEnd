@@ -1,10 +1,10 @@
 import express from 'express'
 import cors from 'cors'
-import { Server } from 'socket.io';
+//import { Server } from 'socket.io';
 import userRouter from './routes/user'
-//import { usersofDB } from './user/schema'
 import experienciasRouter from './routes/experiencias'
 import { run } from './database/mongo_conn'
+import initializeSocket from './routes/chat';
 
 const app = express()
 app.use(express.json())
@@ -27,15 +27,17 @@ const server = app.listen(PORT, () => {
     console.log('el servidor esta escuchando en el puerto '+ PORT)
 })
 
-const io = new Server(server,  {
+initializeSocket(server);
+
+/* const io = new Server(server,  {
   cors: {
     origin: "*"
   }});
 
-const connectedUser = new Set();
+const connectedUser = new Set(); */
 
 
-io.on('connection', (socket) => {
+/* io.on('connection', (socket) => {
   console.log('**********************************************************Connected successfully', socket.id);
   socket.join("some room");
   connectedUser.add(socket.id);
@@ -58,4 +60,4 @@ io.on('connection', (socket) => {
     //socket.broadcast.emit('message-receive', data);
     socket.to("some room").emit('message-receive', data);
   });
-});
+}); */
