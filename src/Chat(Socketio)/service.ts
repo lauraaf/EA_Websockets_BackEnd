@@ -1,6 +1,5 @@
 import { Server } from 'socket.io';
-//import { IChat } from './model';
-//import Chat from './schema';
+
 
 const connectedUser = new Set();
 
@@ -9,7 +8,6 @@ const socketService = (io: Server) => {
         console.log('Connected successfully', socket.id);
         socket.join("some room");
         connectedUser.add(socket.id);
-        //io.emit('connected-user', connectedUser.size);
         io.to("some room").emit('connected-user', connectedUser.size);
     
         socket.on('disconnect', () => {
@@ -25,13 +23,12 @@ const socketService = (io: Server) => {
     
         socket.on('message', async (data) => {
           console.log(data);
-          //socket.broadcast.emit('message-receive', data);
           socket.to("some room").emit('message-receive', data);
         });
     
         socket.on('sendMessage', async (data) => {
     
-          // Emitir el mensaje a todos los clientes en la sala
+          
           io.to("some room").emit('message-receive', data);
         });
       });
