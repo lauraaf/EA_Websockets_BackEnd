@@ -21,15 +21,26 @@ const socketService = (io: Server) => {
           socket.disconnect();
         });
     
-        socket.on('message', async (data) => {
-          console.log(data);
-          socket.to("some room").emit('message-receive', data);
+        socket.on('message', async (data: string) => {
+          const messageSchema: { 
+            date: Date; message: string 
+          } = {
+            date: new Date(), // Asignem la data actual al missatge
+            message: data //A la variable missatge li passem el string
+          }
+          console.log(messageSchema);
+          socket.to("some room").emit('message-receive', messageSchema);
         });
     
         socket.on('sendMessage', async (data) => {
-    
-          
-          io.to("some room").emit('message-receive', data);
+          const messageSchema: { 
+            date: Date; message: string 
+          } = {
+            date: new Date(), // Asignem la data actual al missatge
+            message: data //A la variable missatge li passem el string
+          }
+          console.log(messageSchema)
+          io.to("some room").emit('message-receive', messageSchema);
         });
       });
 };
